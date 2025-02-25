@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 2</title>
+    <style>
+        body{
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container{
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0,1);
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input, select, textarea{
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td{
+            border: 1px solid #000;
+        }
+        th, td{
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1 style="color: blue;">Registro de personas</h1>
+        <form id="formPersona">
+            <fieldset>
+                <legend>Datos personales</legend>
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" id="nombre" required>
+                <label for="apellido">Apellido:</label>
+                <input type="text" name="apellido" id="apellido" required>
+                <label for="edad">Edad:</label>
+                <input type="number" name="edad" id="edad" required min="1">
+                <label for="genero">Genero</label>
+                <select name="genero" id="genero">
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Otros">Otros</option>
+                </select>
+            </fieldset>
+            <fieldset>
+                <legend>Datos de Contacto</legend>
+                <label for="telefono">Telefono:</label>
+                <input type="text" name="telefono" id="telefono" required>
+                <label for="correo">Correo:</label>
+                <input type="text" name="correo" id="correo" required>
+            </fieldset>
+            <fieldset>
+                <legend>Datos Adicionales</legend>
+                <label for="direccion">Direccion:</label>
+                <input type="text" name="direccion" id="direccion" required>
+                <label for="fecha">Fecha de nacimiento:</label>
+                <input type="date" name="fecha" id="fecha" required>
+                
+                <label for="color">Color favorito:</label>
+                <input type="color" name="color" id="color">
+                <label for="archivo">Subir archivo:</label>
+                <input type="file" name="archivo" id="archivo">
+                <label for="aceptar">Aceptar términos:</label>
+                <input type="checkbox" name="aceptar" id="aceptar">
+                <label>Género preferido:</label>
+                <input type="radio" name="preferencia" id="hombre" value="Hombre">
+                <label for="hombre">Hombre</label>
+                <input type="radio" name="preferencia" id="mujer" value="Mujer">
+                <label for="mujer">Mujer</label>
+                <input type="radio" name="preferencia" id="otro" value="Otro">
+                <label for="otro">Otro</label>
+                <button type="button" onclick="alert('Botón adicional')">Botón</button>
+            </fieldset>
+            <input type="submit" style="background-color: slategrey;" value="Guardar">
+        </form>
+        <table id="tablaPersonas">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Edad</th>
+                    <th>Genero</th>
+                    <th>Telefono</th>
+                    <th>Correo</th>
+                    <th>Direccion</th>
+                    <th>Fecha de nacimiento</th>
+                    <th>Color favorito</th>
+                    <th>Archivo</th>
+                    <th>Acepta términos</th>
+                    <th>Preferencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se insertarán las filas con los datos de las personas -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        const personas = [];
+        document.getElementById("formPersona").addEventListener("submit", function(event){
+            event.preventDefault();
+            const persona = {
+                nombre: document.getElementById("nombre").value,
+                apellido: document.getElementById("apellido").value,
+                edad: document.getElementById("edad").value,
+                genero: document.getElementById("genero").value,
+                telefono: document.getElementById("telefono").value,
+                correo: document.getElementById("correo").value,
+                direccion: document.getElementById("direccion").value,
+                fecha: document.getElementById("fecha").value,
+                color: document.getElementById("color").value,
+                archivo: document.getElementById("archivo").value,
+                aceptar: document.getElementById("aceptar").checked,
+                preferencia: document.querySelector('input[name="preferencia"]:checked') ? document.querySelector('input[name="preferencia"]:checked').value : ''
+            };
+            personas.push(persona);
+            actualizarTabla(personas);
+            alert(JSON.stringify(persona));
+            document.getElementById("formPersona").reset(); // Limpiar los campos del formulario
+        });
+
+        function actualizarTabla(personas) {
+            const tbody = document.getElementById("tablaPersonas").getElementsByTagName("tbody")[0];
+            tbody.innerHTML = ""; // Limpiar la tabla antes de actualizarla
+
+            personas.forEach(persona => {
+                const fila = document.createElement("tr");
+
+                Object.values(persona).forEach(valor => {
+                    const celda = document.createElement("td");
+                    celda.textContent = valor;
+                    fila.appendChild(celda);
+                });
+
+                tbody.appendChild(fila);
+            });
+        }
+    </script>
+</body>
+</html>
+
+
